@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "Starter\Starter.csproj", "{BC052B9B-04E9-456B-B1A1-A33333335442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyOwnTests", "MyOwnTests\MyOwnTests.csproj", "{4DFB1420-2B6D-4222-BEF5-130386BC1C9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrencyInCSharp-StephenCleary", "ConcurrencyInCSharp-StephenCleary\ConcurrencyInCSharp-StephenCleary.csproj", "{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC052B9B-04E9-456B-B1A1-A33333335442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC052B9B-04E9-456B-B1A1-A33333335442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC052B9B-04E9-456B-B1A1-A33333335442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC052B9B-04E9-456B-B1A1-A33333335442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DFB1420-2B6D-4222-BEF5-130386BC1C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DFB1420-2B6D-4222-BEF5-130386BC1C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DFB1420-2B6D-4222-BEF5-130386BC1C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DFB1420-2B6D-4222-BEF5-130386BC1C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
