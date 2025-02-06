@@ -1,6 +1,6 @@
-namespace ConcurrencyInCSharp_StephenCleary;
+namespace ConcurrencyInCSharp_StephenCleary.Chapter_02_BasicsOfAsync;
 
-public class Part_02_BasicsOfAsync
+public class Part_01_Delay
 {
     // 1. Обычная асинхронная задержка
     /*
@@ -47,7 +47,7 @@ public class Part_02_BasicsOfAsync
                 Console.WriteLine(ex.Message);
             }
             await Task.Delay(nextDelay);
-            nextDelay = nextDelay + nextDelay;
+            nextDelay += nextDelay;
         }
         // Попробовать в последний раз и разрешить распространение ошибки.
         return await client.GetStringAsync(uri);
@@ -91,4 +91,6 @@ public class Part_02_BasicsOfAsync
             
         return await downloadTask;
     }
+    
+    
 }

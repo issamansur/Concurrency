@@ -1,6 +1,6 @@
 ﻿using System.Reactive.Linq;
 
-namespace ConcurrencyInCSharp_StephenCleary;
+namespace ConcurrencyInCSharp_StephenCleary.Chapter_01_Concurrency;
 
 public static class Part_01_Concurrency
 {
