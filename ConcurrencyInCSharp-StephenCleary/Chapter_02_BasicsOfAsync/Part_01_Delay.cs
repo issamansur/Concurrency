@@ -8,7 +8,7 @@ namespace ConcurrencyInCSharp_StephenCleary.Chapter_02_BasicsOfAsync;
 задержки для повторного использования. Она также возникает
 при программировании простых тайм-аутов.
  */
-public class Part_01_Delay
+public static class Part_01_Delay
 {
     // 1. Обычная асинхронная задержка
     public static async Task<T> DelayResult<T>(T result, TimeSpan delay)
@@ -92,6 +92,4 @@ public class Part_01_Delay
             
         return await downloadTask;
     }
-    
-    
 }
