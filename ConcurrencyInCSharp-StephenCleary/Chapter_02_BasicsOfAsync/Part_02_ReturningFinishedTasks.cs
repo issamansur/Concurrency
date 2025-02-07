@@ -71,6 +71,12 @@ public class Part_02_ReturningFinishedTasks
         перехватывайте исключения и используйте
         Task.FromException для их возвращения.
         */
+        private void DoSomethingSynchronously()
+        {
+            // Синхронный код
+            // ...
+        }
+
         public Task DoSomethingAsyncWithTryCatch()
         {
             try
@@ -83,19 +89,13 @@ public class Part_02_ReturningFinishedTasks
                 return Task.FromException(ex);
             }
         }
-
-        private void DoSomethingSynchronously()
-        {
-            // Синхронный код
-            // ...
-        }
         
         /*
         Если вы регулярно используете Task.FromResult с одним
         значением, подумайте о кэшировании задачи.
         */
         private static readonly Task<int> zeroTask = Task.FromResult(0);
-        Task<int> GetValueZeroAsync()
+        public static Task<int> GetValueZeroAsync()
         {
             return zeroTask;
         }
