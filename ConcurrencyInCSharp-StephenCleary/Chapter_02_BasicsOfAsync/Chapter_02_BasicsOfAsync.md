@@ -141,3 +141,51 @@ Task<T>[] startedTasks = tasks.ToArray();
 задач и удалять каждую задачу из списка при завершении.
 Проблема в том, что такое решение выполняется за время 
 `O(N2)`, хотя существует алгоритм со временем `O(N)`.
+
+## 6. Обработка задач при завершении
+
+Простейшее решение заключается в рефакторинге кода и введении
+высокоуровневого `async`-метода, который обеспечивает
+ожидание задачи и обработку ее результата.
+
+```csharp
+async Task AwaitAndProcessAsync<T>(Task<T> task)
+{
+    T result = await task;
+    // обработка результата
+}
+
+{
+    // Создание задач
+    // ...
+
+    IEnumerable<Task> taskQuery =
+        from t in tasks select AwaitAndProcessAsync(t);
+    Task[] processingTasks = taskQuery.ToArray();
+}
+```
+
+или же проще (для кого как).
+
+```csharp
+Task[] processingTasks = tasks.Select(async t =>
+{
+    var result = await t;
+    // обработка результата
+}).ToArray();
+```
+
+Метод расширения OrderByCompletion также доступен в 
+библиотеке с открытым кодом `AsyncEx`
+(NuGet-пакет `Nito.AsyncEx`). С таким методом расширения 
+изменения в исходной версии кода сводятся до минимума:
+
+```csharp
+// Ожидать каждой задачи по мере выполнения.
+foreach (Task<int> task in tasks.OrderByCompletion())
+{
+    T result = await task;
+    // обработка результата
+}
+```
+

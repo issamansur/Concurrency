@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Reactive" Version="6.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\ConcurrencyInCSharp-StephenCleary\ConcurrencyInCSharp-StephenCleary.csproj" />
     </ItemGroup>
 
