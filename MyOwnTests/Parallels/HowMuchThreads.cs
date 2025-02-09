@@ -1,4 +1,4 @@
-namespace MyOwnTests.Parallel;
+namespace MyOwnTests.Parallels;
 
 public static class HowMuchThreads
 {
@@ -14,7 +14,7 @@ public static class HowMuchThreads
         // If Local and runtime - 2+, else - 0
         Console.WriteLine(ThreadPool.ThreadCount);
 
-        System.Threading.Tasks.Parallel.Invoke(
+        Parallel.Invoke(
             DoSync,
             DoSync,
             DoSync,
@@ -35,7 +35,7 @@ public static class HowMuchThreads
         // If Local and runtime - 2+, else - 0
         Console.WriteLine(ThreadPool.ThreadCount);
 
-        System.Threading.Tasks.Parallel.For(0, 8, _ => DoSync());
+        Parallel.For(0, 8, _ => DoSync());
 
         // 12+
         Console.WriteLine(ThreadPool.ThreadCount);
