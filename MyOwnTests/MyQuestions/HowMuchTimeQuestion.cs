@@ -6,7 +6,7 @@ namespace MyOwnTests.MyQuestions;
 Вопрос:
 Сколько времени займет выполнение методов в каждом из
 следующих случаев и почему?
-P.S. Если тяжело, то расскомментируйте строки с выводом
+P.S. Если тяжело, то раскомментируйте строки с выводом
 и продебажьте.
 */
 public static class HowMuchTimeQuestion
@@ -151,4 +151,29 @@ public static class HowMuchTimeQuestion
 
         return Task.CompletedTask;
     } // 5 cекунд
+
+    public static Task Question12()
+    {
+        Task.Run(DelayAsync);
+        Task.Run(DelayAsync);
+        Task.Run(DelayAsync);
+
+        return Task.CompletedTask;
+    } // 0 cекунд
+
+    public static async Task Question13()
+    {
+        await Task.Run(DelayAsync);
+        await Task.Run(DelayAsync);
+        await Task.Run(DelayAsync);
+    } // 15 cекунд
+
+    public static Task Question14()
+    {
+        Task.Run(SleepSync);
+        Task.Run(SleepSync);
+        Task.Run(SleepSync);
+
+        return Task.CompletedTask;
+    } // 0 cекунд
 }
