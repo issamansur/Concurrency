@@ -129,4 +129,27 @@ public static class WhatIsTheProblem
     // i уже успевает стать равным 3 (выход из цикла).
     // P.S.
     // Try foreach
+    
+    // Пример 6. Параллельное выполнение задач через await
+    private static async Task DoAsync()
+    {
+        Thread.Sleep(1000);
+        Console.WriteLine("3");
+        await Task.Delay(1000);
+        Console.WriteLine("4");
+        Thread.Sleep(1000);
+        Console.WriteLine("5");
+    }
+
+    public static async Task Example6()
+    {
+        var t = DoAsync();
+        Console.WriteLine("1");
+        Thread.Sleep(1500);
+        Console.WriteLine("2");
+        await t;
+    }
+    // Подсказка: что выведется на консоль? 
+    // Когда именно DoAsync уйдёт в другой поток?
+    // Ответ: 3, 1, 4, 2, 5
 }
