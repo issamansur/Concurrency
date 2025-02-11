@@ -91,9 +91,21 @@
 библиотеке с открытым кодом `AsyncEx` 
 (NuGet-пакет `Nito.AsyncEx`).
 
-- Собственный SynchronizationContext
+- Собственный `SynchronizationContext`
 
 Если нужно предоставить ваш собственный тип 
 `SynchronizationContext` - (например, `AsyncContext`)
 
 Тип `AsyncContext` находится в пакете `Nito.AsyncEx`.
+
+- Ожидание `ValueTask`
+
+`ValueTask` или `ValueTask<T>` может ожидаться только один
+раз, поэтому вы не можете одновременно использовать `await`
+и вызвать `AsTask` для одного `ValueTask<T>`.
+
+Синхронное получение результатов от `ValueTask` или 
+`ValueTask<T>` может быть выполнено только один раз, после 
+завершения `ValueTask`, и это значение` ValueTask` уже не 
+может использоваться для ожидания или преобразования в 
+задачу.
