@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Linq;
+using System.Threading.Tasks.Dataflow;
 
 namespace ConcurrencyInCSharp_StephenCleary.Chapter_01_Concurrency;
 
@@ -208,5 +209,28 @@ public static class Part_01_Concurrency
 
         // Задержка для видмости результата
         Thread.Sleep(10000);
+    }
+    
+    // 7. Пример использования TPL Dataflow
+    public static void TplDataflowExample()
+    {
+        try
+        {
+            var multiplyBlock = new TransformBlock<int, int>(item =>
+            {
+                if (item == 1)
+                    throw new InvalidOperationException("Blech.");
+                return item * 2;
+            });
+            var subtractBlock = new TransformBlock<int, int>(item => item - 2);
+            multiplyBlock.LinkTo(subtractBlock,
+                new DataflowLinkOptions { PropagateCompletion = true });
+            multiplyBlock.Post(1);
+            subtractBlock.Completion.Wait();
+        }
+        catch (AggregateException exception)
+        {
+            AggregateException ex = exception.Flatten();
+        }
     }
 }
