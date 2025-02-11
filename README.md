@@ -90,3 +90,10 @@
 Метод расширения `OrderByCompletion` также доступен в 
 библиотеке с открытым кодом `AsyncEx` 
 (NuGet-пакет `Nito.AsyncEx`).
+
+- Собственный SynchronizationContext
+
+Если нужно предоставить ваш собственный тип 
+`SynchronizationContext` - (например, `AsyncContext`)
+
+Тип `AsyncContext` находится в пакете `Nito.AsyncEx`.
