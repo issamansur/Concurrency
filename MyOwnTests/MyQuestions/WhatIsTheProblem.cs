@@ -1,3 +1,5 @@
+using System.Threading.Tasks.Dataflow;
+
 namespace MyOwnTests.MyQuestions;
 
 // xml-documentation? Нет, не слышал.
@@ -152,4 +154,43 @@ public static class WhatIsTheProblem
     // Подсказка: что выведется на консоль? 
     // Когда именно DoAsync уйдёт в другой поток?
     // Ответ: 3, 1, 4, 2, 5
+    
+    // Пример 7. Обработка сети через Dataflow
+    // Пример из книги (но некорректный). Почему?
+    public static async Task Example7()
+    {
+        var block = new TransformBlock<int, int>(item =>
+        {
+            if (item == 1)
+                throw new InvalidOperationException("Blech.");
+
+            Console.WriteLine($"Processing {item}");
+
+            return item * 2;
+        });
+        
+        try
+        {
+            block.Post(1);
+            block.Post(2);
+            
+            await block.Completion;
+        }
+        catch (InvalidOperationException)
+        {
+            Console.WriteLine("Caught InvalidOperationException");
+        }
+    }
+    // Подсказка: Когда таска завершится?
+    // Ответ:
+    // 1. Необходимо сообщить о завершении блока
+    // через block.Complete()
+    // 2. Необходимо прочитать данные из блока
+    // до ожидания завершения блока
+    // P.S.
+    // Данная обработка вполне легальна в продакшене
+    // (после исправлений, разумеется). Однако советую
+    // рассмотреть другие варианты, чтобы блоки обработки
+    // не входили в состояние отказа.
+    // Например: "Рельсовое" программирование
 }
