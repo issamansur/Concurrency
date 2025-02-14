@@ -193,4 +193,33 @@ public static class WhatIsTheProblem
     // рассмотреть другие варианты, чтобы блоки обработки
     // не входили в состояние отказа.
     // Например: "Рельсовое" программирование
+    
+    
+    // Пример 8. Синхронное ожидание в асинхронной функции.
+    // Честно говоря, могу только пожелать удачи
+    static async Task Example8()
+    {
+        // Indicates the task has been started and is ready.
+        var taskReady = new TaskCompletionSource<object>();
+
+        // Start the task, running on a thread pool thread.
+        var task = Task.Run(() =>
+        {
+            // Spend a bit of time getting ready.
+            Thread.Sleep(100);
+        
+            // Let the Test method know we've been started and are ready.
+            taskReady.SetResult(5);
+
+            // Spend a bit more time doing nothing in particular.
+            Thread.Sleep(100);
+        });
+
+        // Wait for the task to be started and ready.
+        await taskReady.Task;
+
+        // Block until the task is completed.
+        task.Wait();
+    }
+    // Ответ: https://blog.stephencleary.com/2012/12/dont-block-in-asynchronous-code.html
 }
