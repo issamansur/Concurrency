@@ -197,7 +197,7 @@ public static class WhatIsTheProblem
     
     // Пример 8. Синхронное ожидание в асинхронной функции.
     // Честно говоря, могу только пожелать удачи
-    static async Task Example8()
+    public static async Task Example8()
     {
         // Indicates the task has been started and is ready.
         var taskReady = new TaskCompletionSource<object>();
@@ -222,4 +222,38 @@ public static class WhatIsTheProblem
         task.Wait();
     }
     // Ответ: https://blog.stephencleary.com/2012/12/dont-block-in-asynchronous-code.html
+    // Краткий ответ: Используйте TaskCreationOptions.RunContinuationsAsynchronously
+    
+    // Пример 9. Использование Intersect для счётчика
+    private static int Example9_Counter = 0;
+    static int GetValue()
+    {
+        // Атомарное увеличение счётчика
+        Interlocked.Increment(ref Example9_Counter);
+        Console.WriteLine($"Counter: {Example9_Counter}");
+        return Example9_Counter;
+    }
+    public static async Task Example9()
+    {
+        // Имитация множественных запросов
+        var tasks = Enumerable
+            .Range(0, 100)
+            .Select(_ => Task.Run(GetValue));
+        
+        var executedTasks = tasks.ToList();
+        
+        int[] results = await Task.WhenAll(executedTasks);
+
+        var set = new HashSet<int>(results);
+        var count = set.Count;
+        
+        Console.WriteLine(count);
+    }
+    // Подсказка: что выведется на консоль?
+    // Поможет ли Volatile?
+    // Что именно делает Intersect?
+    // Ответ: про порядок думаю, не стоит говорить - CW не безопасен
+    // Volatile не поможет, так как проблема не в переменной.
+    // Intersect помогает в данном примере, однако для
+    // вывода и возврата используем возвращаемое значение Intersect
 }
