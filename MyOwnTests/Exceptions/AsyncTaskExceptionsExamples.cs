@@ -1,6 +1,6 @@
 namespace MyOwnTests.Exceptions;
 
-public static class ExceptionsExamples
+public static class AsyncTaskExceptionsExamples
 { 
     // Correct example of exception throwing 
     // We use modificator async, so exceptions will be
