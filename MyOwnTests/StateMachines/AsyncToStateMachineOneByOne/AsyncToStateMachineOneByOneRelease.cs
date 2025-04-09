@@ -14,213 +14,244 @@ using System.Threading.Tasks;
 
 namespace MyOwnTests.StateMachines.AsyncToStateMachineOneByOne
 {
-  //[NullableContext(1)]
-  //[Nullable(0)]
   public static class AsyncToStateMachineOneByOneRelease
   {
-    [AsyncStateMachine(typeof (DoAsync1State))]
+    [AsyncStateMachine(typeof(DoAsync1State))]
     public static Task<int> DoAsync1()
     {
-      DoAsync1State stateMachine = new DoAsync1State();
-      stateMachine._builder = AsyncTaskMethodBuilder<int>.Create();
-      stateMachine._state = -1;
+      // Создаём машину состояний для первой функции с параметрами:
+      // builder (req) - Билдер, используемый как легковесный CTS.
+      // state (req) - Текущее состояние стэйт машины, в частности и таски
+      // --- Начальное значение: -1
+      // --- После первого вызова MoveNext, если значение не было вычислено сразу: 0
+      // --- Окончание таски (результат или ошибка): -2
+      // parameter (opt) - параметр, если функция принимает параметр
+      var stateMachine = new DoAsync1State
+      {
+        _builder = AsyncTaskMethodBuilder<int>.Create(),
+        _state = -1
+      };
+      // Метод для запуска билдера и, соответственно, ATMB:
+      // 1. Сохраняем контекст синхронизации и исполнения
+      // 2. Вызываем MoveNext у стейт машины
+      // 3. Возвращаем контекст синхронизации и исполнения,
+      // если они были изменены у вызывающего потока
+      // (вход по стеку)
       stateMachine._builder.Start<DoAsync1State>(ref stateMachine);
+      // (выход по стеку)
       return stateMachine._builder.Task;
     }
 
-    [AsyncStateMachine(typeof (DoAsync2State))]
+    [AsyncStateMachine(typeof(DoAsync2State))]
     public static Task<int> DoAsync2()
     {
-      DoAsync2State stateMachine = new DoAsync2State();
-      stateMachine._builder = AsyncTaskMethodBuilder<int>.Create();
-      stateMachine._state = -1;
+      var stateMachine = new DoAsync2State
+      {
+        _builder = AsyncTaskMethodBuilder<int>.Create(),
+        _state = -1
+      };
       stateMachine._builder.Start<DoAsync2State>(ref stateMachine);
       return stateMachine._builder.Task;
     }
 
-    [AsyncStateMachine(typeof (DoAsync3State))]
+    [AsyncStateMachine(typeof(DoAsync3State))]
     public static Task<int> DoAsync3()
     {
-      DoAsync3State stateMachine = new DoAsync3State();
-      stateMachine._builder = AsyncTaskMethodBuilder<int>.Create();
-      stateMachine._state = -1;
+      DoAsync3State stateMachine = new DoAsync3State
+      {
+        _builder = AsyncTaskMethodBuilder<int>.Create(),
+        _state = -1
+      };
       stateMachine._builder.Start<DoAsync3State>(ref stateMachine);
       return stateMachine._builder.Task;
     }
 
-    [CompilerGenerated]
+    //[CompilerGenerated]
     [StructLayout(LayoutKind.Auto)]
-    private struct DoAsync1State : 
-    /*[Nullable(0)]*/
-    IAsyncStateMachine
+    private struct DoAsync1State : IAsyncStateMachine
     {
       public int _state;
-      //[Nullable(0)]
+
       public AsyncTaskMethodBuilder<int> _builder;
-      //[Nullable(0)]
+
       private TaskAwaiter<int> _taskAwaiter;
 
       void IAsyncStateMachine.MoveNext()
       {
-        int num1 = this._state;
+        int num1 = _state;
         int result1;
         try
         {
           TaskAwaiter<int> awaiter;
-          int num2;
+          // MoveNext вызван в первый раз
           if (num1 != 0)
           {
             Console.WriteLine("DoAsync1 started");
+            // Синхронно "идём" в следующий асинхронный метод,
+            // вызывая функцию синхронно и получая TaskAwaiter
+            // для полученной таски (вход по стеку)
             awaiter = DoAsync2().GetAwaiter();
+
+            // Если эта стейт машина принадлежит последней асинхронной
+            // функции в стеке вызовов, то мы доходим сюда.
             if (!awaiter.IsCompleted)
             {
-              this._state = num2 = 0;
-              this._taskAwaiter = awaiter;
-              this._builder.AwaitUnsafeOnCompleted<TaskAwaiter<int>, DoAsync1State>(ref awaiter, ref this);
+              _state = 0;
+              _taskAwaiter = awaiter;
+              // выполнение таски
+              _builder.AwaitUnsafeOnCompleted<TaskAwaiter<int>, DoAsync1State>(ref awaiter, ref this);
+              // После возврата:
+              // 1. Таска возвращается по стеку
+              // 2. MoveNext вызовется при завершении операции снова 
+              // через ContinueWith(t => MoveNext())
+              // и пойдет обратно по стеку, завершая задачу
+              // (выход по стеку в ожидании окончания задачи)
               return;
             }
           }
+          // Метод вызывается после того, как колбэк вызовет
+          // после завершения асинхронной операции
           else
           {
-            awaiter = this._taskAwaiter;
-            this._taskAwaiter = new TaskAwaiter<int>();
-            this._state = num2 = -1;
+            awaiter = _taskAwaiter;
+            _taskAwaiter = new TaskAwaiter<int>();
+            _state = -1;
           }
+
           int result2 = awaiter.GetResult();
           Console.WriteLine("DoAsync1 finished");
           result1 = result2;
         }
         catch (Exception ex)
         {
-          this._state = -2;
-          this._builder.SetException(ex);
+          _state = -2;
+          _builder.SetException(ex);
           return;
         }
-        this._state = -2;
-        this._builder.SetResult(result1);
+
+        _state = -2;
+        _builder.SetResult(result1);
       }
 
       [DebuggerHidden]
       void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
       {
-        this._builder.SetStateMachine(stateMachine);
+        _builder.SetStateMachine(stateMachine);
       }
     }
 
     [CompilerGenerated]
     [StructLayout(LayoutKind.Auto)]
-    private struct DoAsync2State : 
-    /*[Nullable(0)]*/
-    IAsyncStateMachine
+    private struct DoAsync2State : IAsyncStateMachine
     {
       public int _state;
-      //[Nullable(0)]
+
       public AsyncTaskMethodBuilder<int> _builder;
-      //[Nullable(0)]
+
       private TaskAwaiter<int> _taskAwaiter;
 
       void IAsyncStateMachine.MoveNext()
       {
-        int num1 = this._state;
+        int num1 = _state;
         int result1;
         try
         {
           TaskAwaiter<int> awaiter;
-          int num2;
           if (num1 != 0)
           {
             Console.WriteLine(" DoAsync2 started");
             awaiter = DoAsync3().GetAwaiter();
             if (!awaiter.IsCompleted)
             {
-              this._state = num2 = 0;
-              this._taskAwaiter = awaiter;
-              this._builder.AwaitUnsafeOnCompleted<TaskAwaiter<int>, DoAsync2State>(ref awaiter, ref this);
+              _state = 0;
+              _taskAwaiter = awaiter;
+              _builder.AwaitUnsafeOnCompleted<TaskAwaiter<int>, DoAsync2State>(ref awaiter, ref this);
               return;
             }
           }
           else
           {
-            awaiter = this._taskAwaiter;
-            this._taskAwaiter = new TaskAwaiter<int>();
-            this._state = num2 = -1;
+            awaiter = _taskAwaiter;
+            _taskAwaiter = new TaskAwaiter<int>();
+            _state = -1;
           }
+
           int result2 = awaiter.GetResult();
           Console.WriteLine(" DoAsync2 finished");
           result1 = result2;
         }
         catch (Exception ex)
         {
-          this._state = -2;
-          this._builder.SetException(ex);
+          _state = -2;
+          _builder.SetException(ex);
           return;
         }
-        this._state = -2;
-        this._builder.SetResult(result1);
+
+        _state = -2;
+        _builder.SetResult(result1);
       }
 
       [DebuggerHidden]
       void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
       {
-        this._builder.SetStateMachine(stateMachine);
+        _builder.SetStateMachine(stateMachine);
       }
     }
 
     [CompilerGenerated]
     [StructLayout(LayoutKind.Auto)]
-    private struct DoAsync3State : 
-    /*[Nullable(0)]*/
-    IAsyncStateMachine
+    private struct DoAsync3State : IAsyncStateMachine
     {
       public int _state;
-      //[Nullable(0)]
+
       public AsyncTaskMethodBuilder<int> _builder;
       private TaskAwaiter _taskAwaiter;
 
       void IAsyncStateMachine.MoveNext()
       {
-        int num1 = this._state;
+        int num1 = _state;
         int result;
         try
         {
           TaskAwaiter awaiter;
-          int num2;
           if (num1 != 0)
           {
             Console.WriteLine("  DoAsync3 started");
             awaiter = Task.Delay(1000).GetAwaiter();
             if (!awaiter.IsCompleted)
             {
-              this._state = num2 = 0;
-              this._taskAwaiter = awaiter;
-              this._builder.AwaitUnsafeOnCompleted<TaskAwaiter, DoAsync3State>(ref awaiter, ref this);
+              _state = 0;
+              _taskAwaiter = awaiter;
+              _builder.AwaitUnsafeOnCompleted<TaskAwaiter, DoAsync3State>(ref awaiter, ref this);
               return;
             }
           }
           else
           {
-            awaiter = this._taskAwaiter;
-            this._taskAwaiter = new TaskAwaiter();
-            this._state = num2 = -1;
+            awaiter = _taskAwaiter;
+            _taskAwaiter = new TaskAwaiter();
+            _state = -1;
           }
+
           awaiter.GetResult();
           Console.WriteLine("  DoAsync3 finished");
           result = 42;
         }
         catch (Exception ex)
         {
-          this._state = -2;
-          this._builder.SetException(ex);
+          _state = -2;
+          _builder.SetException(ex);
           return;
         }
-        this._state = -2;
-        this._builder.SetResult(result);
+
+        _state = -2;
+        _builder.SetResult(result);
       }
 
       [DebuggerHidden]
       void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
       {
-        this._builder.SetStateMachine(stateMachine);
+        _builder.SetStateMachine(stateMachine);
       }
     }
   }
