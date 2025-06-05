@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CLRViaCSharp-JeffreyRichter\CLRViaCSharp-JeffreyRichter.csproj" />
       <ProjectReference Include="..\ConcurrencyInCSharp-StephenCleary\ConcurrencyInCSharp-StephenCleary.csproj" />
     </ItemGroup>
 
