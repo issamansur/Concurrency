@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyOwnTests", "MyOwnTests\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrencyInCSharp-StephenCleary", "ConcurrencyInCSharp-StephenCleary\ConcurrencyInCSharp-StephenCleary.csproj", "{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRViaCSharp-JeffreyRichter", "CLRViaCSharp-JeffreyRichter\CLRViaCSharp-JeffreyRichter.csproj", "{9EF4E45B-563A-420B-A13B-2BBEE2279450}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98978EE8-84F5-4740-8790-9BA4EDE4CFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EF4E45B-563A-420B-A13B-2BBEE2279450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EF4E45B-563A-420B-A13B-2BBEE2279450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EF4E45B-563A-420B-A13B-2BBEE2279450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EF4E45B-563A-420B-A13B-2BBEE2279450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
