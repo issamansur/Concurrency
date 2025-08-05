@@ -43,7 +43,7 @@ public class TplDataflowProducerConsumer<T> : BaseProducerConsumer<T>
 #else
         return Task.FromException(
             new InvalidOperationException(
-                $"{nameof(TplDataflowProducerConsumer)} calls {nameof(ProcessMessage)} automatically."
+                $"{nameof(TplDataflowProducerConsumer<T>)} calls {nameof(ProcessMessage)} automatically."
             )
         );
 #endif
